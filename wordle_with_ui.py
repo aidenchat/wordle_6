@@ -1,15 +1,23 @@
 from PyQt6.QtWidgets import *
 from PyQt6 import uic
 import random as rand
+import os
+import sys
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
 
 class MyGUI(QMainWindow):
     def __init__(self):
         super(MyGUI, self).__init__()
-        uic.loadUi("wordle_ui.ui", self)
+        uic.loadUi(resource_path("wordle_ui.ui"), self)
         self.show()
         self.StartButton.clicked.connect(self.start)
         self.AttemptSubmit.clicked.connect(self.submit)
-        self.actionExit.triggered.connect(exit)
+        self.actionExit.triggered.connect(sys.exit)
     def start(self):
         self.MainDisplay.setEnabled(True)
         self.AttemptInput.setEnabled(True)
@@ -91,6 +99,6 @@ def main():
     app.exec()
 
 life = 6
-ans = pickword(readfile("words.txt"))
+ans = pickword(readfile(resource_path("words.txt")))
 print(ans)
 main()
