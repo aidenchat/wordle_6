@@ -23,9 +23,17 @@ def ask():
             error = False
     return guess.lower()
 
+def scan(str):
+    a = {}
+    for letter in str:
+        if letter not in a.keys():
+            a[letter] = str.count(letter)
+    return a
+
 def play(ans, lives):
     quit = False
     win = False
+    counts = scan(ans)
     while win == False and lives > 0:
         print("")
         print("Lives: ", lives)
@@ -36,13 +44,24 @@ def play(ans, lives):
             win = True
         else:
             reply = []
+            #green boxes and black boxes:
             for i in range(len(guess)):
                 if guess[i] == ans[i]:
                     reply.append("🟩")
+                    counts[guess[i]] -= 1
                 elif guess[i] in ans:
-                    reply.append("🟨")
+                    reply.append("?")
                 else:
                     reply.append("⬛")
+            #yellow boxes + capable of handling duplicate words:
+            for k in range(len(guess)):
+                if reply[k] == "?":
+                    if counts[guess[i]] > 0:
+                        reply[k] = "🟨"
+                        counts[guess[i]] -= 1
+                    else:
+                        reply[k] = "⬛"
+            #print reply:
             for j in range(len(reply)):
                 print(reply[j], end="")
             lives -= 1
