@@ -56,7 +56,7 @@ def play(ans, lives):
     return quit
 
 def main():
-    print("Welcome!")
+    print("Welcome to my own wordle")
     print("(enter \'q\' to exit)")
     quit = False
     while quit == False:
