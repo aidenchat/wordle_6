@@ -74,7 +74,7 @@ def play(ans, lives):
         quit = True
     return quit
 
-def main():
+def playgame():
     print("Welcome to my own wordle")
     inp = input("(enter to play, type \'q\' to break, type \'*\' to show answer): ")
     if inp == "":
@@ -93,5 +93,6 @@ def main():
         quit = play(answer, 6)
     print("Break from program")
 
-main()
+if __name__ == "__main__":
+    playgame()
 
