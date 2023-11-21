@@ -70,18 +70,28 @@ def play(ans, lives):
     elif lives == 0: 
         print("Out of lives!")
     else:
-        print("Break")
+        print("Break from game")
         quit = True
     return quit
 
 def main():
     print("Welcome to my own wordle")
-    print("(enter \'q\' to exit)")
-    quit = False
+    inp = input("(enter to play, type \'q\' to break, type \'*\' to show answer): ")
+    if inp == "":
+        debug_mode = False
+        quit = False
+    elif inp == "*":
+        debug_mode = True
+        quit = False
+        print("enter cheating mode")
+    else:
+        quit = True
     while quit == False:
         answer = pickword(readfile("words.txt"))
-        print(answer)
+        if debug_mode == True:
+            print(answer)
         quit = play(answer, 6)
+    print("Break from program")
 
 main()
 
