@@ -44,9 +44,9 @@ class MyGUI(QMainWindow):
                     #yellow boxes + capable of handling duplicate words:
                     for k in range(len(guess)):
                         if reply[k] == "?":
-                            if counts[guess[i]] > 0:
+                            if counts.get([guess[k], 0]) > 0:
                                 reply[k] = "🟨"
-                                counts[guess[i]] -= 1
+                                counts[guess[k]] -= 1
                             else:
                                 reply[k] = "⬛"
                     #print reply:
