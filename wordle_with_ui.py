@@ -9,11 +9,13 @@ class MyGUI(QMainWindow):
         self.show()
         self.StartButton.clicked.connect(self.start)
         self.AttemptSubmit.clicked.connect(self.submit)
+        self.actionExit.triggered.connect(exit)
     def start(self):
         self.MainDisplay.setEnabled(True)
         self.AttemptInput.setEnabled(True)
         self.AttemptSubmit.setEnabled(True)
         self.StartButton.setEnabled(False)
+    #happens after you click submit    
     def submit(self):
         guess = self.AttemptInput.text().lower()
         if len(guess) != 6:
@@ -25,11 +27,13 @@ class MyGUI(QMainWindow):
             message.setText("Guess must only contain letters")
             message.exec()
         else:
+            #print attempted word first
             guess_spaced = ""
             for m in range(len(guess)):
                 guess_spaced += guess[m].upper() + " "
             reply_str = self.MainDisplay.text() + "\n"
             self.MainDisplay.setText(reply_str + guess_spaced.strip())
+            #real processing
             win = False
             counts = scan(ans)
             global life
