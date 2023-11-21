@@ -58,6 +58,7 @@ def play(ans, lives):
 def main():
     print("Welcome!")
     print("(enter \'q\' to exit)")
+    print("hi")
     quit = False
     while quit == False:
         answer = pickword(readfile("words.txt"))
