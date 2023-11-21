@@ -13,8 +13,9 @@ class MyGUI(QMainWindow):
         self.MainDisplay.setEnabled(True)
         self.AttemptInput.setEnabled(True)
         self.AttemptSubmit.setEnabled(True)
+        self.StartButton.setEnabled(False)
     def submit(self):
-        guess = self.AttemptInput.text()
+        guess = self.AttemptInput.text().lower()
         if len(guess) != 6:
             message = QMessageBox()
             message.setText("Invalid guess length")
@@ -24,10 +25,15 @@ class MyGUI(QMainWindow):
             message.setText("Guess must only contain letters")
             message.exec()
         else:
-            lives = 6
+            guess_spaced = ""
+            for m in range(len(guess)):
+                guess_spaced += guess[m].upper() + " "
+            reply_str = self.MainDisplay.text() + "\n"
+            self.MainDisplay.setText(reply_str + guess_spaced.strip())
             win = False
             counts = scan(ans)
-            if win == False and lives > 0:
+            global life
+            if win == False and life > 0:
                 if guess == ans:
                     win = True
                 else:
@@ -44,22 +50,22 @@ class MyGUI(QMainWindow):
                     #yellow boxes + capable of handling duplicate words:
                     for k in range(len(guess)):
                         if reply[k] == "?":
-                            if counts.get([guess[k], 0]) > 0:
+                            if counts.get(guess[k], 0) > 0:
                                 reply[k] = "🟨"
                                 counts[guess[k]] -= 1
                             else:
                                 reply[k] = "⬛"
                     #print reply:
-                    reply_str = self.MainDisplay.text() + "\n"
                     result_str = ""
                     for j in range(len(reply)):
                         result_str += reply[j]
-                    self.MainDisplay.setText(reply_str + result_str)
-                    lives -= 1
+                    self.MainDisplay.setText(reply_str + guess_spaced.strip() + "\n" + result_str)
+                    #self.MainDisplay_2.setText(self.MainDisplay_2.text() + guess_spaced.strip() + "\n\n\n")
+                    life -= 1
             if win == True:
-                self.MainDisplay.setText(self.MainDisplay.text() + "\n🟩🟩🟩🟩🟩🟩\nYou Win!")
-            elif lives == 0: 
-                self.MainDisplay.setText(self.MainDisplay.text() + "Out of lives!")
+                self.MainDisplay.setText(self.MainDisplay.text() + "\n🟩🟩🟩🟩🟩🟩\n" + "\nYou Win!")
+            elif life == 0: 
+                self.MainDisplay.setText(self.MainDisplay.text() + "\n" + ans +"\nOut of lives!")
 def scan(str):
     a = {}
     for letter in str:
@@ -80,6 +86,7 @@ def main():
     window = MyGUI()
     app.exec()
 
+life = 6
 ans = pickword(readfile("words.txt"))
 print(ans)
 main()
