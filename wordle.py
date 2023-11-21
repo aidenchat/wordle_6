@@ -7,7 +7,7 @@ def readfile(path):
     
 def pickword(words):
     ans = rand.choice(words)
-    return ans.strip("\n")
+    return ans.lower().strip("\n")
 
 def ask():
     error = True
