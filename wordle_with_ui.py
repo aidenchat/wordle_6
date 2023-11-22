@@ -3,6 +3,7 @@ from PyQt6 import uic
 import random as rand
 import os
 import sys
+import time
 
 def resource_path(relative_path):
     #Get absolute path to resource, works for dev and for PyInstaller
@@ -26,6 +27,7 @@ class MyGUI(QMainWindow):
     #happens after you click submit    
     def submit(self):
         guess = self.AttemptInput.text().lower()
+        global valid_words
         if len(guess) != 6:
             message = QMessageBox()
             message.setText("Invalid guess length")
@@ -33,6 +35,10 @@ class MyGUI(QMainWindow):
         elif not guess.isalpha():
             message = QMessageBox()
             message.setText("Guess must only contain letters")
+            message.exec()
+        elif guess not in valid_words:
+            message = QMessageBox()
+            message.setText("Word not in dictionary")
             message.exec()
         else:
             #print attempted word first
@@ -71,13 +77,15 @@ class MyGUI(QMainWindow):
                     result_str = ""
                     for j in range(len(reply)):
                         result_str += reply[j]
-                    self.MainDisplay.setText(reply_str + guess_spaced.strip() + "\n" + result_str)
+                        self.MainDisplay.setText(reply_str + guess_spaced.strip() + "\n" + result_str)
+                        time.sleep(0.3)
                     #self.MainDisplay_2.setText(self.MainDisplay_2.text() + guess_spaced.strip() + "\n\n\n")
                     life -= 1
             if win == True:
                 self.MainDisplay.setText(self.MainDisplay.text() + "\n🟩🟩🟩🟩🟩🟩\n" + "\nYou Win!")
             elif life == 0: 
                 self.MainDisplay.setText(self.MainDisplay.text() + "\n" + ans +"\nOut of lives!")
+
 def scan(str):
     a = {}
     for letter in str:
@@ -98,6 +106,8 @@ def main():
     window = MyGUI()
     app.exec()
 
+with open("valid_words.txt", "r") as f:
+    valid_words = f.readline().split()
 life = 6
 ans = pickword(readfile(resource_path("words.txt")))
 print(ans)
