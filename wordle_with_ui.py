@@ -75,8 +75,8 @@ class MyGUI(QMainWindow):
                                 reply[k] = "⬛"
                     #print reply:
                     result_str = ""
-                    for j in range(len(reply)):
-                        result_str += reply[j]
+                    for j in reply:
+                        result_str += j
                         self.MainDisplay.setText(reply_str + guess_spaced.strip() + "\n" + result_str)
                         time.sleep(0.3)
                     #self.MainDisplay_2.setText(self.MainDisplay_2.text() + guess_spaced.strip() + "\n\n\n")
