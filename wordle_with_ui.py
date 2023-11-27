@@ -78,7 +78,7 @@ class MyGUI(QMainWindow):
                     for j in reply:
                         result_str += j
                         self.MainDisplay.setText(reply_str + guess_spaced.strip() + "\n" + result_str)
-                        time.sleep(0.3)
+                        #time.sleep(0.3)
                     #self.MainDisplay_2.setText(self.MainDisplay_2.text() + guess_spaced.strip() + "\n\n\n")
                     life -= 1
             if win == True:
