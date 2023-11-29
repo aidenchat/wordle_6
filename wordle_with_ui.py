@@ -3,12 +3,11 @@ from PyQt6 import uic
 import random as rand
 import os
 import sys
-import time
+# import time
 
 def resource_path(relative_path):
-    #Get absolute path to resource, works for dev and for PyInstaller
-    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(base_path, relative_path)
+    # PyInstaller one-file bundle workaround
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), relative_path)
 
 
 class MyGUI(QMainWindow):
@@ -24,7 +23,7 @@ class MyGUI(QMainWindow):
         self.AttemptInput.setEnabled(True)
         self.AttemptSubmit.setEnabled(True)
         self.StartButton.setEnabled(False)
-    #happens after you click submit    
+    #happens after you click submit
     def submit(self):
         guess = self.AttemptInput.text().lower()
         global valid_words
@@ -51,7 +50,7 @@ class MyGUI(QMainWindow):
             win = False
             counts = scan(ans)
             global life
-            if win == False and life > 0:
+            if not win and life > 0:
                 if guess == ans:
                     win = True
                 else:
@@ -81,27 +80,27 @@ class MyGUI(QMainWindow):
                         #time.sleep(0.3)
                     #self.MainDisplay_2.setText(self.MainDisplay_2.text() + guess_spaced.strip() + "\n\n\n")
                     life -= 1
-            if win == True:
+            if win:
                 self.MainDisplay.setText(self.MainDisplay.text() + "\n🟩🟩🟩🟩🟩🟩\n" + "\nYou Win!")
-            elif life == 0: 
-                self.MainDisplay.setText(self.MainDisplay.text() + "\n" + ans +"\nOut of lives!")
+            elif life == 0:
+                self.MainDisplay.setText(self.MainDisplay.text() + "\n" + ans + "\nOut of lives!")
 
-def scan(str):
+def scan(s: str) -> dict:
     a = {}
-    for letter in str:
+    for letter in s:
         if letter not in a.keys():
-            a[letter] = str.count(letter)
+            a[letter] = s.count(letter)
     return a
 
 def readfile(path):
-    with open(path, "r") as f:
-        words = f.readlines()
+    with open(path, "r") as _f:
+        words = _f.readlines()
     return words
-def pickword(words):
-    ans = rand.choice(words)
-    return ans.lower().strip("\n")
+def pickword(words: list) -> str:
+    _ans = rand.choice(words)
+    return _ans.lower().strip("\n")
 
-def main():
+def main() -> None:
     app = QApplication([])
     window = MyGUI()
     app.exec()

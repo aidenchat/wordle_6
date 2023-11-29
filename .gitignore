@@ -1,7 +1,10 @@
 # cache
 **/__pycache__
 *.pyc
-# PyInstaller
+
+# PyInstaller binary files
 build/
 dist/
-*.spec
+
+# PyCharm
+.idea/
